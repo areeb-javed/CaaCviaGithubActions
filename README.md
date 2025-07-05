@@ -32,15 +32,20 @@ AzureAD Provider	Provision Conditional Access policies
 GitHub Actions	Automate the CI/CD workflow
 
 📁 Project Structure
-bash
-Copy
-Edit
+
 ├── .github/workflows/
+
 │   └── deploy.yml           # GitHub Actions CI/CD pipeline
+
 ├── main.tf                  # Conditional Access policy definition
+
 ├── variables.tf             # Required input variables
+
 ├── providers.tf             # AzureAD provider setup
+
 ├── README.md                # Project documentation
+
+
 🔐 Prerequisites
 Azure AD App Registration with the following:
 
