@@ -31,7 +31,7 @@ Terraform	IaC for Azure resources
 AzureAD Provider	Provision Conditional Access policies
 GitHub Actions	Automate the CI/CD workflow
 
-📁 Project Structure
+📁Project Structure
 
 ├── .github/workflows/
 
