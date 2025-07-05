@@ -46,7 +46,7 @@ GitHub Actions	Automate the CI/CD workflow
 ├── README.md                # Project documentation
 
 
-🔐 Prerequisites
+🔐Prerequisites
 Azure AD App Registration with the following:
 
 API permissions: Policy.ReadWrite.ConditionalAccess
