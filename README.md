@@ -1,5 +1,5 @@
 # CaaCviaGithubActions
-✅ Conditional Access as Code with Terraform and GitHub Actions
+Conditional Access as Code with Terraform and GitHub Actions
 This project demonstrates how to implement Conditional Access Policies as Code using:
 
 Terraform
