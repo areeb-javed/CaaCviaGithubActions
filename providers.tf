@@ -4,17 +4,12 @@ terraform {
       source  = "hashicorp/azuread"
       version = ">= 2.43.0"
     }
-    icrosoftgraph = {
-      source  = "hashicorp/microsoftgraph"
-      version = "~> 0.7.0"
-    }
   }
 }
 
 provider "azuread" {
-  client_id     = var.client_id
-  client_secret = var.client_secret
-  tenant_id     = var.tenant_id
-  use_microsoft_graph = true
-
+  client_id             = var.client_id
+  client_secret         = var.client_secret
+  tenant_id             = var.tenant_id
+  use_microsoft_graph   = true
 }
