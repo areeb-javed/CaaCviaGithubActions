@@ -42,10 +42,11 @@ resource "azurerm_linux_virtual_machine" "example" {
   admin_password      = "P@ssw0rd1234!"  # Use a secure password
   network_interface_ids = [azurerm_network_interface.example.id]
 
-  os_disk {
+   os_disk {
     caching              = "ReadWrite"
-    create_option        = "FromImage"
-  }
+    storage_account_type = "Standard_LRS"
+    }
+
 
   source_image_reference {
     publisher = "Canonical"
