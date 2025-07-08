@@ -1,49 +1,56 @@
-resource "azuread_conditional_access_policy" "block_untrusted_access" {
-  display_name = "Block Non-Compliant Devices from Untrusted Locations"
-  state        = "enabled"
+provider "azurerm" {
+  features {}
+}
 
-  conditions {
-    users {
-      included_users = ["All"]
-      excluded_users = ["GuestsOrExternalUsers"]
-    }
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "East US"  # Change to the appropriate Middle East region
+}
 
-    sign_in_risk_levels = ["medium", "high"]
-    user_risk_levels    = ["medium"]
+resource "azurerm_virtual_network" "example" {
+  name                = "example-vnet"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+}
 
-    client_app_types = ["browser", "mobileAppsAndDesktopClients"]
+resource "azurerm_subnet" "example" {
+  name                 = "example-subnet"
+  resource_group_name  = azurerm_resource_group.example.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
 
-    applications {
-      included_applications = ["All"]
-    }
+resource "azurerm_network_interface" "example" {
+  name                = "example-nic"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
 
-    devices {
-      filter {
-        mode = "exclude"
-        rule = "device.operatingSystem eq \"Windows 7\""
-      }
-    }
+  ip_configuration {
+    name                          = "example-ipconfig"
+    subnet_id                    = azurerm_subnet.example.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
 
-    locations {
-      included_locations = ["All"]
-      excluded_locations = ["13936a93-d6a4-47c8-b257-ef109483a433"]
-    }
+resource "azurerm_linux_virtual_machine" "example" {
+  name                = "example-vm"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
+  size               = "Standard_DS1_v2"
+  admin_username      = "adminuser"
+  admin_password      = "P@ssw0rd1234!"  # Use a secure password
+  network_interface_ids = [azurerm_network_interface.example.id]
 
-    platforms {
-      included_platforms = ["android", "iOS", "windows"]
-    }
+  os_disk {
+    caching              = "ReadWrite"
+    create_option        = "FromImage"
   }
 
-  grant_controls {
-    operator          = "OR"
-    built_in_controls = ["mfa"]
-  }
-
-  session_controls {
-    application_enforced_restrictions_enabled = true
-    sign_in_frequency                         = 10
-    sign_in_frequency_period                  = "hours"
-    cloud_app_security_policy                 = "monitorOnly"
-    disable_resilience_defaults               = false
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
   }
 }
